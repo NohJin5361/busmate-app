@@ -2,7 +2,9 @@ const functions = require("firebase-functions");
 const axios = require("axios");
 
 // Firebase에 저장된 API키 불러오기 (환경 변수 우선, fallback으로 config 사용)
-const apiKey = process.env.PUBLICDATA_KEY || functions.config().publicdata?.key;
+const apiKey = process.env.GETNEARBYSTOPS_KEY || functions.config().getnearbystops?.key;
+
+// 공공데이터 포털 키는 제공 형식 그대로 사용
 
 /**
  * GPS 좌표를 기반으로 반경 500m 이내의 버스 정류장 목록을 반환
@@ -40,7 +42,12 @@ const getNearbyStops = functions.https.onRequest(async (request, response) => {
     return response.status(400).send("유효하지 않은 좌표값입니다.");
   }
 
-const url = `http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getCrdntPrxmtSttnList?serviceKey=${encodeURIComponent(apiKey)}&pageNo=1&numOfRows=20&_type=json&gpsLati=${lat}&gpsLong=${lon}`;
+if (!apiKey) {
+  console.error("Missing API key for public data portal.");
+  return response.status(500).send("서버 설정 오류: 공공데이터 API 키가 설정되지 않았습니다.");
+}
+
+const url = `http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getCrdntPrxmtSttnList?serviceKey=${apiKey}&pageNo=1&numOfRows=20&_type=json&gpsLati=${lat}&gpsLong=${lon}`;
 
   try {
     console.log(`Searching for bus stops near: lat=${lat}, lon=${lon}`);
