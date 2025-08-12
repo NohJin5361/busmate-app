@@ -2,7 +2,7 @@ const functions = require("firebase-functions");
 const axios = require("axios");
 
 // Firebase에 저장된 API키 불러오기 (환경 변수 우선, fallback으로 config 사용)
-const apiKey = process.env.GETNEARBYSTOPS_KEY || functions.config().getnearbystops?.key;
+const apiKey =  functions.config().getnearbystops?.key;
 
 // 공공데이터 포털 키는 제공 형식 그대로 사용
 
