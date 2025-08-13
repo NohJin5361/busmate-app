@@ -1,10 +1,9 @@
 const functions = require("firebase-functions");
 const axios = require("axios");
 
-// Firebase에 저장된 API키 불러오기 (환경 변수 우선, fallback으로 config 사용)
-const apiKey =  functions.config().getnearbystops?.key;
 
-// 공공데이터 포털 키는 제공 형식 그대로 사용
+// 공공데이터포털 TAGO 키 
+const apiKey = functions.config().koreadatapotal?.key;
 
 /**
  * GPS 좌표를 기반으로 반경 500m 이내의 버스 정류장 목록을 반환
@@ -18,7 +17,7 @@ const getNearbyStops = functions.https.onRequest(async (request, response) => {
   response.set('Access-Control-Allow-Methods', 'GET');
   response.set('Access-Control-Allow-Headers', 'Content-Type');
   
-  // OPTIONS 요청 처리
+  // OPTIONS 요청 처리    
   if (request.method === 'OPTIONS') {
     response.status(204).send('');
     return;
@@ -42,12 +41,12 @@ const getNearbyStops = functions.https.onRequest(async (request, response) => {
     return response.status(400).send("유효하지 않은 좌표값입니다.");
   }
 
-if (!apiKey) {
+ 	if (!apiKey) {
   console.error("Missing API key for public data portal.");
   return response.status(500).send("서버 설정 오류: 공공데이터 API 키가 설정되지 않았습니다.");
 }
 
-const url = `http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getCrdntPrxmtSttnList?serviceKey=${apiKey}&pageNo=1&numOfRows=20&_type=json&gpsLati=${lat}&gpsLong=${lon}`;
+const url = `https://apis.data.go.kr/1613000/BusSttnInfoInqireService/getCrdntPrxmtSttnList?serviceKey=${encodeURIComponent(apiKey)}&pageNo=1&numOfRows=20&_type=json&gpsLati=${encodeURIComponent(latNum)}&gpsLong=${encodeURIComponent(lonNum)}`;
 
   try {
     console.log(`Searching for bus stops near: lat=${lat}, lon=${lon}`);
@@ -62,17 +61,18 @@ const url = `http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getCrdntPrx
     const items = apiResponse.data?.response?.body?.items?.item || [];
     console.log(`Found ${items.length} nearby bus stops`);
 
-    // 응답 데이터가 없는 경우 빈 배열을 반환합니다.
+    // 응답 데이터가 없는 경우 빈 배열을 반환
     if (!items || items.length === 0) {
       return response.status(200).json([]);
     }
 
-    // 프론트엔드에 필요한 데이터만 추출하여 응답합니다.
+    // 프론트엔드에 필요한 데이터만 추출하여 응답
     const nearbyStops = items.map(stop => ({
       nodeid: stop.nodeid,
       nodename: stop.nodename,
       gpslati: stop.gpslati,
       gpslong: stop.gpslong,
+      citycode: stop.citycode,
     }));
     
     return response.status(200).json(nearbyStops);
