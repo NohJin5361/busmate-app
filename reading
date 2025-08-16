@@ -1,0 +1,29 @@
+busmate 폴더 안의 App 폴더를 사용할 것이다.
+그래서 App폴더 있는 폴더랑 App.tsx폴더, 이외는 거의 사용하지 않는다.
+다른 폴더는 react native를 만들면서 생긴 폴더로 개발 작업하면서 사용하는 것 아니면 건들지 필요 없다.
+
+
+혹시 
+react native에서 설정이 필요하다면 밑의 링크를 참고
+https://velog.io/@springhana/RN-React-Native-%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0
+
+
+실행할 때는 터미널에
+1. Android 스튜디오의 화면에서 설정 누르고 그 중 virtual device manager 누르고 실행(미디엄 폰 api 36 실행 하면 됨)
+2. cd busmate (여기부터 vscode 터미널에 입력)
+3. npx run android
+
+
+
+(네이버 maps API)
+네이버 maps API(DynamicMap) 
+-Client ID : 3hseigxemns
+-Clinet Secret : nYoIoCOvuUE5cS9dI5VsV4DIpxULN5xlCsuN2xnd
+
+네이버 maps API(StaticMap) <-현재 이걸로 사용함
+-Client ID : wjpf84qab4
+-Clinet Secret: lohfqWESZLm3FocL6yux4uVnPfD1Oxee6Ohqa545
+
+이 둘의 차이는 정적 지도 사용이냐 동적 지도 사용의 차이가 있다
+
+
