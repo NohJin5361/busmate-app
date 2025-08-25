@@ -1,4 +1,4 @@
-![Uploading image.png…]()
+<img width="888" height="500" alt="Image" src="https://github.com/user-attachments/assets/2f1f0d87-ef1b-4bd7-8aca-a3f17a096bba" />
 
 # 🚌 BusMate (버스 메이트) - AI 기반 고령자 맞춤형 버스 안내 앱 (MVP)
 
