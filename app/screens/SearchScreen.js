@@ -41,7 +41,7 @@ const SearchScreen = () => {
   // '검색 완료' 버튼 또는 최근 검색 기록 선택 시 호출될 함수
   const onConfirmSearch = (destinationText) => {
     // 바로 Stack 네비게이터로 이동
-    navigation.navigate('GuidanceStartScreen', {
+    navigation.navigate('RouteFindingScreen', {
       destination: destinationText.trim(),
     });
 
